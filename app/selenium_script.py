@@ -22,6 +22,11 @@ load_dotenv()
 def setup_driver():
     
     firefox_options = Options()
+        # Add required options for running in headless mode
+    firefox_options.add_argument('--headless')
+    firefox_options.add_argument('--no-sandbox')
+    firefox_options.add_argument('--disable-dev-shm-usage')
+    
     firefox_profile = webdriver.FirefoxProfile()
     firefox_profile.set_preference("dom.webdriver.enabled", False)
     firefox_profile.set_preference("useAutomationExtension", False)
@@ -32,7 +37,7 @@ def setup_driver():
         firefox_options.add_argument(f"--proxy-server={PROXY}")
 
     firefox_options.binary_location = "C:/Program Files/Firefox Developer Edition/firefox.exe"
-    service = Service(executable_path="E:/WebDriver/geckodriver.exe")
+    service = Service(executable_path="E:/programming/STIR/WebDriver/geckodriver.exe")
     return webdriver.Firefox(service=service, options=firefox_options)
 
 
