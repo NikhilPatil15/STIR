@@ -3,6 +3,14 @@
 ## Project Description
 This project is part of the Stir Tech Internship assignment. The task involves building a web scraping and data visualization system using Selenium, ProxyMesh, and MongoDB. The project allows users to fetch and display the top trending topics on Twitter.
 
+## Screenshot
+
+![alt text](image.png)
+
+## Working video
+
+<video controls src="AwesomeScreenshot-27_12_2024,4_53_35pm.mp4" title="Title"></video>
+
 ## Features
 - **Web Scraping with Selenium**: Automates fetching trending topics from Twitter.
 - **Proxy Usage**: Ensures each request is sent through a different IP using ProxyMesh.
