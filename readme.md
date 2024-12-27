@@ -9,9 +9,7 @@ This project is part of the Stir Tech Internship assignment. The task involves b
 
 ## Working video
 
-<video controls src="AwesomeScreenshot-27_12_2024,4_53_35pm.mp4" title="Title"></video>
-
-[Watch Demo Video](AwesomeScreenshot-27_12_2024,4_53_35pm.mp4)
+[Watch Demo Video](https://drive.google.com/file/d/1K-MiwF6QVTA_HEL25kr_dyaHNiwCpv5N/view?usp=sharing)
 
 ## Features
 - **Web Scraping with Selenium**: Automates fetching trending topics from Twitter.
