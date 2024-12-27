@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trending Topics</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .button {
+        display: inline-block;
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+      .button:hover {
+        background-color: #45a049;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      .json-output {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 14px;
+        white-space: pre-wrap;
+        margin-top: 20px;
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+      .timestamp {
+        color: #888;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Twitter Trending Topics</h1>
+
+      <button class="button" id="run-script-btn">
+        Click here to run the script
+      </button>
+
+      <div id="result" class="result">
+        <p>Click the button to scrape data from Twitter.</p>
+      </div>
+
+      <div id="json-output" class="json-output" style="display: none"></div>
+
+      <p class="timestamp" id="timestamp"></p>
+
+      <button id="again" style="display: none" class="button"></button>
+    </div>
+
+    <script>
+      document
+        .getElementById("run-script-btn")
+        .addEventListener("click", async () => {
+          // Show a loading message while waiting for the script to run
+          const resultElement = document.getElementById("result");
+          resultElement.innerHTML = "<p>Running script...</p>";
+
+          // Make an AJAX call to run the script
+          await fetch("/scrape_twitter")
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Data:", data);
+              data = JSON.parse(data);
+
+              // Update the page with the script's output
+              const timestamp = new Date().toLocaleString();
+              const jsonOutputElement = document.getElementById("json-output");
+              const runQueryAgain = document.getElementById("again");
+              // Prepare output content
+              const outputText = `
+                        <p><strong>These are the most happening topics as on ${timestamp}:</strong></p>
+                        <ul>
+                            <li>${data.trends[0]}</li>
+                            <li>${data.trends[1]}</li>
+                            <li>${data.trends[2]}</li>
+                            <li>${data.trends[3]}</li>
+                        </ul>
+                        <p><strong>The IP address used for this query was ${data.response.ip_address}</strong></p>
+                        <p>Here’s a JSON extract of this record from the MongoDB:</p>
+                    `;
+
+              // Display output text
+              resultElement.innerHTML = outputText;
+              document.getElementById(
+                "timestamp"
+              ).innerText = `Query performed on: ${timestamp}`;
+
+              // Show JSON output
+              jsonOutputElement.style.display = "block";
+              jsonOutputElement.textContent = JSON.stringify(
+                data.response,
+                null,
+                2
+              );
+
+              // Make the button clickable again
+              const button = document.getElementById("run-script-btn");
+              button.innerText = "Click here to run the query again";
+              button.addEventListener("click", function () {
+                location.reload();
+              });
+
+              runQueryAgain.textContent = "Run the query again!";
+              runQueryAgain.style.display = "block";
+              runQueryAgain.addEventListener('click', async() => {
+                location.reload()
+              })
+            })
+            .catch((error) => {
+              // Handle any errors that occur during the fetch
+              resultElement.innerHTML =
+                "<p class='error'>An error occurred while running the script.</p>";
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>
