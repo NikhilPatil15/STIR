@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 import os
-from bson import ObjectId
+
 
 def get_db_connection():
     """Connect to the MongoDB database and return the db object."""
@@ -9,7 +9,7 @@ def get_db_connection():
     db = client['trending_data']
     return db
 
-# Save trending data to the database and return the inserted document as JSON
+
 def save_trending_data(record):
     db = get_db_connection()
     collection = db['trending_data']
@@ -25,4 +25,4 @@ def save_trending_data(record):
     
   
     
-    return inserted_document # Return the inserted document as JSON
+    return inserted_document 

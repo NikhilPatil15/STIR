@@ -89,22 +89,19 @@
       document
         .getElementById("run-script-btn")
         .addEventListener("click", async () => {
-          // Show a loading message while waiting for the script to run
           const resultElement = document.getElementById("result");
           resultElement.innerHTML = "<p>Running script...</p>";
 
-          // Make an AJAX call to run the script
           await fetch("/scrape_twitter")
             .then((response) => response.json())
             .then((data) => {
               console.log("Data:", data);
               data = JSON.parse(data);
 
-              // Update the page with the script's output
               const timestamp = new Date().toLocaleString();
               const jsonOutputElement = document.getElementById("json-output");
               const runQueryAgain = document.getElementById("again");
-              // Prepare output content
+
               const outputText = `
                         <p><strong>These are the most happening topics as on ${timestamp}:</strong></p>
                         <ul>
@@ -131,7 +128,6 @@
                 2
               );
 
-              // Make the button clickable again
               const button = document.getElementById("run-script-btn");
               button.innerText = "Click here to run the query again";
               button.addEventListener("click", function () {
@@ -140,12 +136,11 @@
 
               runQueryAgain.textContent = "Run the query again!";
               runQueryAgain.style.display = "block";
-              runQueryAgain.addEventListener('click', async() => {
-                location.reload()
-              })
+              runQueryAgain.addEventListener("click", async () => {
+                location.reload();
+              });
             })
             .catch((error) => {
-              // Handle any errors that occur during the fetch
               resultElement.innerHTML =
                 "<p class='error'>An error occurred while running the script.</p>";
               console.error("Error:", error);
